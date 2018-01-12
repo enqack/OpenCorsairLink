@@ -243,12 +243,14 @@ int main(int argc, char *argv[])
 	}
 	libusb_set_debug(context, 3);
 
-	corsairlink_device_scanner(context);
+	int devices_detected;
+	corsairlink_device_scanner(context, &devices_detected);
 	msg_debug("DEBUG: scan done, start routines\n");
 	msg_debug("DEBUG: device_number = %d\n", device_number);
 
 	if (device_number >= 0) {
-		if (scanlist[device_number].device->driver == &corsairlink_driver_rmi) {
+		if (devices_detected == 0) { }
+		else if (scanlist[device_number].device->driver == &corsairlink_driver_rmi) {
 			psu_settings(scanlist[device_number], settings);
 		} else {
 			hydro_settings(scanlist[device_number], settings);

@@ -54,7 +54,7 @@ int corsairlink_close(libusb_context *context)
 	return 0;
 }
 
-int corsairlink_device_scanner(libusb_context *context)
+int corsairlink_device_scanner(libusb_context *context, int* devices_detected)
 {
 	int rr; // This could be safely ignored. It is just a success flag for libusb functions.
 
@@ -100,6 +100,7 @@ int corsairlink_device_scanner(libusb_context *context)
 						msg_info("Dev=%d, CorsairLink Device Found: %s!\n",
 							scanlist_count, device->name);
 						scanlist_count++;
+						++(*devices_detected);
 						break;
 					} else {
 						msg_debug("No (device_id 0x%02X)\n", device_id);
